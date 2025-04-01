@@ -1,9 +1,9 @@
-/*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19  Distrib 10.6.21-MariaDB, for debian-linux-gnu (x86_64)
+/*!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19  Distrib 10.11.8-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: 172.18.69.57    Database: syce_21_Port
+-- Host: localhost    Database: syce_21_Port_backup
 -- ------------------------------------------------------
--- Server version	10.6.18-MariaDB-0ubuntu0.22.04.1
+-- Server version	10.11.8-MariaDB-0ubuntu0.24.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -22,9 +22,9 @@
 
 DROP TABLE IF EXISTS `container`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `container` (
-  `container_id` int(11) NOT NULL,
+  `container_id` int(11) NOT NULL AUTO_INCREMENT,
   `ship_id` int(11) DEFAULT NULL,
   `container_capacity` int(11) DEFAULT NULL,
   `type_name` varchar(10) DEFAULT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `container` (
   CONSTRAINT `container_ibfk_1` FOREIGN KEY (`ship_id`) REFERENCES `ship` (`ship_id`),
   CONSTRAINT `fk_port_id_1` FOREIGN KEY (`port_id`) REFERENCES `port` (`port_id`),
   CONSTRAINT `fk_vehicle_id` FOREIGN KEY (`vehicle_id`) REFERENCES `transport_vehicle` (`vehicle_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,16 @@ CREATE TABLE `container` (
 
 LOCK TABLES `container` WRITE;
 /*!40000 ALTER TABLE `container` DISABLE KEYS */;
-INSERT INTO `container` VALUES (1,1,1000,'cylinder',1,1),(2,2,1500,'cuboid',1,2),(3,3,1800,'cuboid',1,3),(4,4,2000,'cylinder',2,4),(5,5,2200,'cuboid',2,5),(6,6,2500,'cylinder',2,6),(7,7,3000,'cuboid',3,7),(8,8,3200,'cylinder',3,8),(9,9,3500,'cuboid',3,9);
+INSERT INTO `container` VALUES
+(1,1,1000,'cylinder',1,1),
+(2,2,1500,'cuboid',1,2),
+(3,3,1800,'cuboid',1,3),
+(4,4,2000,'cylinder',2,4),
+(5,5,2200,'cuboid',2,5),
+(6,6,2500,'cylinder',2,6),
+(7,7,3000,'cuboid',3,7),
+(8,8,3200,'cylinder',3,8),
+(9,9,3500,'cuboid',3,9);
 /*!40000 ALTER TABLE `container` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,10 +65,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `country` (
   `country_name` varchar(20) NOT NULL,
-  `country_tarrif` int(11) DEFAULT NULL,
+  `country_tarriff` int(11) DEFAULT NULL,
   PRIMARY KEY (`country_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -70,7 +79,15 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
-INSERT INTO `country` VALUES ('brazil',160),('france',210),('germany',200),('india',200),('italy',180),('japan',180),('uk',200),('usa',150);
+INSERT INTO `country` VALUES
+('brazil',160),
+('france',210),
+('germany',200),
+('india',200),
+('italy',180),
+('japan',180),
+('uk',200),
+('usa',150);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +97,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `customs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customs` (
   `inspection_level` int(11) NOT NULL,
   `inspection_status` tinyint(1) DEFAULT NULL,
@@ -96,7 +113,10 @@ CREATE TABLE `customs` (
 
 LOCK TABLES `customs` WRITE;
 /*!40000 ALTER TABLE `customs` DISABLE KEYS */;
-INSERT INTO `customs` VALUES (1,0,0,'No issues'),(2,1,1,'Suspicious items found'),(3,0,0,'Clear');
+INSERT INTO `customs` VALUES
+(1,0,0,'No issues'),
+(2,1,1,'Suspicious items found'),
+(3,0,0,'Clear');
 /*!40000 ALTER TABLE `customs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,14 +126,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee` (
-  `emp_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL AUTO_INCREMENT,
   `emp_status` tinyint(1) DEFAULT NULL,
   `emp_role` varchar(50) DEFAULT NULL,
   `emp_salary` int(11) DEFAULT NULL,
-  PRIMARY KEY (`emp_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `port_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`emp_id`),
+  KEY `port_id` (`port_id`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`port_id`) REFERENCES `port` (`port_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +145,15 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,1,'manager',60000),(2,1,'engineer',50000),(3,0,'intern',30000),(4,1,'supervisor',55000),(5,1,'technician',45000),(6,0,'clerk',32000),(7,1,'manager',60000),(8,0,'engineer',50000);
+INSERT INTO `employee` VALUES
+(1,1,'manager',60000,NULL),
+(2,1,'engineer',50000,NULL),
+(3,0,'intern',30000,NULL),
+(4,1,'supervisor',55000,NULL),
+(5,1,'technician',45000,NULL),
+(6,0,'clerk',32000,NULL),
+(7,1,'manager',60000,NULL),
+(8,0,'engineer',50000,NULL);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -154,7 +185,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `inspected`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `inspected` (
   `container_id` int(11) DEFAULT NULL,
   `inspection_level` int(11) DEFAULT NULL,
@@ -171,7 +202,16 @@ CREATE TABLE `inspected` (
 
 LOCK TABLES `inspected` WRITE;
 /*!40000 ALTER TABLE `inspected` DISABLE KEYS */;
-INSERT INTO `inspected` VALUES (1,1),(2,2),(3,3),(4,1),(5,2),(6,3),(7,1),(8,2),(9,3);
+INSERT INTO `inspected` VALUES
+(1,1),
+(2,2),
+(3,3),
+(4,1),
+(5,2),
+(6,3),
+(7,1),
+(8,2),
+(9,3);
 /*!40000 ALTER TABLE `inspected` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +221,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `port`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `port` (
   `port_id` int(11) NOT NULL,
   `total_ships_present` int(11) DEFAULT NULL,
@@ -200,7 +240,10 @@ CREATE TABLE `port` (
 
 LOCK TABLES `port` WRITE;
 /*!40000 ALTER TABLE `port` DISABLE KEYS */;
-INSERT INTO `port` VALUES (1,4,2000,1,'india'),(2,3,2500,1,'india'),(3,4,3000,1,'india');
+INSERT INTO `port` VALUES
+(1,4,2000,1,'india'),
+(2,3,2500,1,'india'),
+(3,4,3000,1,'india');
 /*!40000 ALTER TABLE `port` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +253,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ship`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ship` (
   `ship_id` int(11) NOT NULL,
   `ship_arrival_date` date DEFAULT NULL,
@@ -236,7 +279,18 @@ CREATE TABLE `ship` (
 
 LOCK TABLES `ship` WRITE;
 /*!40000 ALTER TABLE `ship` DISABLE KEYS */;
-INSERT INTO `ship` VALUES (1,'2025-01-01','2025-01-15',1,'voyager',3000,1,'india',1),(2,'2025-01-05','2025-01-20',1,'navigator',2500,2,'india',1),(3,'2025-01-10','2025-01-25',0,'explorer',2800,3,'india',1),(4,'2025-01-15','2025-01-30',1,'titan',3500,1,'india',2),(5,'2025-01-18','2025-02-02',1,'olympia',3200,2,'india',2),(6,'2025-01-22','2025-02-07',0,'majestic',2700,3,'india',2),(7,'2025-01-25','2025-02-10',1,'endeavour',3300,1,'india',3),(8,'2025-01-28','2025-02-13',1,'voyage',3000,2,'india',3),(9,'2025-02-01','2025-02-15',0,'captain',2500,3,'india',3),(10,'2025-02-01','2025-02-15',1,'titanic',2500,4,'india',3),(11,'2025-02-01','2025-02-15',0,'voyager2',2500,5,'india',1);
+INSERT INTO `ship` VALUES
+(1,'2025-01-01','2025-01-15',1,'voyager',3000,1,'india',1),
+(2,'2025-01-05','2025-01-20',1,'navigator',2500,2,'india',1),
+(3,'2025-01-10','2025-01-25',0,'explorer',2800,3,'india',1),
+(4,'2025-01-15','2025-01-30',1,'titan',3500,1,'india',2),
+(5,'2025-01-18','2025-02-02',1,'olympia',3200,2,'india',2),
+(6,'2025-01-22','2025-02-07',0,'majestic',2700,3,'india',2),
+(7,'2025-01-25','2025-02-10',1,'endeavour',3300,1,'india',3),
+(8,'2025-01-28','2025-02-13',1,'voyage',3000,2,'india',3),
+(9,'2025-02-01','2025-02-15',0,'captain',2500,3,'india',3),
+(10,'2025-02-01','2025-02-15',1,'titanic',2500,4,'india',3),
+(11,'2025-02-01','2025-02-15',0,'voyager2',2500,5,'india',1);
 /*!40000 ALTER TABLE `ship` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -268,7 +322,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `transport_vehicle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transport_vehicle` (
   `vehicle_id` int(11) NOT NULL,
   `vehicle_type` varchar(20) DEFAULT NULL,
@@ -286,7 +340,16 @@ CREATE TABLE `transport_vehicle` (
 
 LOCK TABLES `transport_vehicle` WRITE;
 /*!40000 ALTER TABLE `transport_vehicle` DISABLE KEYS */;
-INSERT INTO `transport_vehicle` VALUES (1,'crane',5000,1,'port 1'),(2,'train',8000,1,'port 2'),(3,'crane',4500,0,'port 3'),(4,'train',10000,1,'port 1'),(5,'crane',5000,1,'port 2'),(6,'train',12000,0,'port 3'),(7,'crane',6000,1,'port 1'),(8,'train',15000,0,'port 2'),(9,'train',10000,1,'port 3');
+INSERT INTO `transport_vehicle` VALUES
+(1,'crane',5000,1,'port 1'),
+(2,'train',8000,1,'port 2'),
+(3,'crane',4500,0,'port 3'),
+(4,'train',10000,1,'port 1'),
+(5,'crane',5000,1,'port 2'),
+(6,'train',12000,0,'port 3'),
+(7,'crane',6000,1,'port 1'),
+(8,'train',15000,0,'port 2'),
+(9,'train',10000,1,'port 3');
 /*!40000 ALTER TABLE `transport_vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -299,4 +362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-01 11:34:36
+-- Dump completed on 2025-04-02  2:30:43
